@@ -129,7 +129,21 @@ namespace Books.Models.Dao
             }
         }
 
-    
+        public void UpdateFirstBookReleaseDate(int authorId, DateTime releaseDate)
+        {
+            using (var connection = _dbConnectionHolder.GetConnection())
+            {
+                var book = connection.QueryFirstOrDefault<Book>(
+                    "SELECT TOP 1 * FROM dbo.Books WHERE AuthorId = @AuthorId ORDER BY ReleaseDate ASC",
+                    new { AuthorId = authorId });
 
+                if (book != null)
+                {
+                    connection.Execute(
+                        "UPDATE dbo.Books SET ReleaseDate = @ReleaseDate WHERE BookID = @BookId",
+                        new { ReleaseDate = releaseDate, BookId = book.BookId });
+                }
+            }
+        }
     }
 }

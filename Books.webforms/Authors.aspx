@@ -77,7 +77,9 @@
     
     <div class="form-group">
         <label for="Editbox_releaseDate">Data wydania pierwszej książki</label>
-        <input type="date" class="form-control" id="Editbox_releaseDate" name="Editbox_releaseDate" placeholder="Data wydania pierwszej książki" value="<%=If(EditedAuthor.Books.Any(), EditedAuthor.Books.Min(Function(b) b.ReleaseDate).ToString("yyyy-MM-dd"), String.Empty)%>">
+  
+        <input type="date" class="form-control" id="Editbox_releaseDate" name="Editbox_releaseDate" placeholder="Data wydania pierwszej książki" value="<%=ReleaseDateOfFirstBookValue%>">
+
     </div>
     <input type="hidden" id="Editbox_id" name="Editbox_id" value="<%=EditedAuthor.AuthorId%>">
     <asp:Button runat="server" ID="btnEditSave" CssClass="btn btn-default" OnCommand="SaveAuthor" Text="Zapisz" OnClientClick="return validateAuthors();" />

@@ -14,6 +14,6 @@ namespace Books.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; } = DateTime.Now; // Default to current date and time
     }
 }

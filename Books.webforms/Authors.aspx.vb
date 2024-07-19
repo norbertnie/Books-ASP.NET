@@ -10,6 +10,9 @@ Public Class Authors
     Public IsSaveMode As Boolean = False
     Public EditedAuthor As Author = New Author()
 
+    Public ReleaseDateOfFirstBookValue As String = String.Empty
+
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
 
     End Sub
@@ -28,6 +31,11 @@ Public Class Authors
                 authors = authorsDao.GetAuthors(firstname_findValue, lastname_findValue)
                 IsEditMode = False
             Else
+                If EditedAuthor IsNot Nothing AndAlso EditedAuthor.Books IsNot Nothing AndAlso EditedAuthor.Books.Any() Then
+                    ReleaseDateOfFirstBookValue = EditedAuthor.Books.Min(Function(b) b.ReleaseDate).ToString("yyyy-MM-dd")
+                Else
+                    ReleaseDateOfFirstBookValue = DateTime.Now.ToString("yyyy-MM-dd")
+                End If
                 Return
             End If
         Else
@@ -35,11 +43,18 @@ Public Class Authors
             authors = authorsDao.GetAuthors()
         End If
 
+        If EditedAuthor IsNot Nothing AndAlso EditedAuthor.Books IsNot Nothing AndAlso EditedAuthor.Books.Any() Then
+            ReleaseDateOfFirstBookValue = EditedAuthor.Books.Min(Function(b) b.ReleaseDate).ToString("yyyy-MM-dd")
+        Else
+            ReleaseDateOfFirstBookValue = DateTime.Now.ToString("yyyy-MM-dd")
+        End If
+
         Dim authorsVMs As List(Of AuthorViewModel) = GetViewModel(authors)
 
         AuthorsRepeater.DataSource = authorsVMs ' Use authorsVMs instead of authors
         AuthorsRepeater.DataBind()
     End Sub
+
 
     Protected Sub AddNewAuthor(sender As Object, e As CommandEventArgs)
         IsEditMode = True
